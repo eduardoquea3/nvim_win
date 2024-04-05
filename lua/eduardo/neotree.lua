@@ -1,3 +1,4 @@
+---@diagnostic disable: duplicate-index
 local icon = require("eduardo.icons")
 
 require("window-picker").setup({

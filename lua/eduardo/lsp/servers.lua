@@ -106,7 +106,8 @@ lspconfig.tailwindcss.setup({
   handlers = handler,
   filetypes = { "html", "javascript", "typescript", "javascriptreact", "typescriptreact", "astro" },
 })
-lspconfig.pyright.setup(default)
+-- lspconfig.pyright.setup(default)
+lspconfig.pylsp.setup(default)
 lspconfig.yamlls.setup(default)
 lspconfig.astro.setup(default)
 lspconfig.jdtls.setup(default)

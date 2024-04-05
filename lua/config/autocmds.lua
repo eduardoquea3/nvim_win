@@ -3,71 +3,71 @@
 --
 ---- resize splits if window got resized
 --autocmd({ "VimResized" }, {
-  --callback = function()
-    --vim.cmd("tabdo wincmd =")
-  --end,
+--callback = function()
+--vim.cmd("tabdo wincmd =")
+--end,
 --})
 --
 ---- close some filetypes with <q>
 --autocmd("FileType", {
-  --group = augroup("close_with_q", { clear = true }),
-  --pattern = {
-    --"PlenaryTestPopus",
-    --"help",
-    --"lspinfo",
-    --"man",
-    --"notify",
-    --"qf",
-    --"query",
-    --"spectre_panel",
-    --"startuptime",
-    --"tsplayground",
-    --"neotest-output",
-    --"checkhealth",
-    --"neotest-summary",
-    --"neotest-output-panel",
-  --},
-  --callback = function(event)
-    --vim.bo[event.buf].buflisted = false
-    --vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
-  --end,
+--group = augroup("close_with_q", { clear = true }),
+--pattern = {
+--"PlenaryTestPopus",
+--"help",
+--"lspinfo",
+--"man",
+--"notify",
+--"qf",
+--"query",
+--"spectre_panel",
+--"startuptime",
+--"tsplayground",
+--"neotest-output",
+--"checkhealth",
+--"neotest-summary",
+--"neotest-output-panel",
+--},
+--callback = function(event)
+--vim.bo[event.buf].buflisted = false
+--vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
+--end,
 --})
 --
 --autocmd("FileType", {
-  --pattern = { "gitcommit", "markdown", "NeogitCommitMessage", "norg" },
-  --callback = function()
-    --vim.opt_local.wrap = true
-    --vim.opt_local.spell = true
-  --end,
+--pattern = { "gitcommit", "markdown", "NeogitCommitMessage", "norg" },
+--callback = function()
+--vim.opt_local.wrap = true
+--vim.opt_local.spell = true
+--end,
 --})
 --
 --autocmd({ "BufWritePre" }, {
-  --callback = function()
-    --vim.cmd([[%s/\s\+$//e]])
-  --end,
+--callback = function()
+--vim.cmd([[%s/\s\+$//e]])
+--end,
 --})
 --
 --vim.api.nvim_create_autocmd("FileType", {
-  --pattern = {
-    --"sql",
-    --"mysql",
-    --"plsql",
-  --},
-  --callback = function()
-    --vim.cmd("lua require('cmp').setup.buffer({sources={{name='vim-dadbod-completion'},{ name = 'buffer' },}})")
-  --end,
+--pattern = {
+--"sql",
+--"mysql",
+--"plsql",
+--},
+--callback = function()
+--vim.cmd("lua require('cmp').setup.buffer({sources={{name='vim-dadbod-completion'},{ name = 'buffer' },}})")
+--end,
 --})
 --
 --autocmd({ "BufRead", "BufWinEnter", "BufNewFile", "BufReadPost", "BufWritePost" }, {
-  --group = augroup("_file_opened", { clear = true }),
-  ---- nested = true,
-  --callback = function(args)
-    --local buftype = vim.api.nvim_get_option_value("buftype", { buf = args.buf })
-    --if not (vim.fn.expand("%") == "" or buftype == "nofile") then
-      --vim.api.nvim_exec_autocmds("User", { pattern = "FileOpened" })
-      --vim.api.nvim_del_augroup_by_name("_file_opened")
-    --end
-  --end,
+--group = augroup("_file_opened", { clear = true }),
+---- nested = true,
+--callback = function(args)
+--local buftype = vim.api.nvim_get_option_value("buftype", { buf = args.buf })
+--if not (vim.fn.expand("%") == "" or buftype == "nofile") then
+--vim.api.nvim_exec_autocmds("User", { pattern = "FileOpened" })
+--vim.api.nvim_del_augroup_by_name("_file_opened")
+--end
+--end,
 --})
 ----vim.api.nvim_exec_autocmds("User", { pattern = "FileOpened" })
 local M = {}
@@ -80,7 +80,7 @@ function M.load_defaults()
         pattern = "*",
         desc = "Highlight text on yank",
         callback = function()
-          vim.highlight.on_yank { higroup = "Search", timeout = 100 }
+          vim.highlight.on_yank({ higroup = "Search", timeout = 100 })
         end,
       },
     },
@@ -103,8 +103,8 @@ function M.load_defaults()
           -- credit: https://github.com/sam4llis/nvim-lua-gf
           vim.opt_local.include = [[\v<((do|load)file|require|reload)[^''"]*[''"]\zs[^''"]+]]
           vim.opt_local.includeexpr = "substitute(v:fname,'\\.','/','g')"
-          vim.opt_local.suffixesadd:prepend ".lua"
-          vim.opt_local.suffixesadd:prepend "init.lua"
+          vim.opt_local.suffixesadd:prepend(".lua")
+          vim.opt_local.suffixesadd:prepend("init.lua")
 
           for _, path in pairs(vim.api.nvim_list_runtime_paths()) do
             vim.opt_local.path:append(path .. "/lua")
@@ -149,9 +149,9 @@ function M.load_defaults()
         group = "_filetype_settings",
         pattern = "alpha",
         callback = function()
-          vim.cmd [[
+          vim.cmd([[
             set nobuflisted
-          ]]
+          ]])
         end,
       },
     },
@@ -166,28 +166,6 @@ function M.load_defaults()
         end,
       },
     },
-    {
-      "ColorScheme",
-      {
-        group = "_lvim_colorscheme",
-        callback = function()
-          if lvim.builtin.breadcrumbs.active then
-            require("lvim.core.breadcrumbs").get_winbar()
-          end
-          local statusline_hl = vim.api.nvim_get_hl_by_name("StatusLine", true)
-          local cursorline_hl = vim.api.nvim_get_hl_by_name("CursorLine", true)
-          local normal_hl = vim.api.nvim_get_hl_by_name("Normal", true)
-          vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
-          vim.api.nvim_set_hl(0, "CmpItemKindTabnine", { fg = "#CA42F0" })
-          vim.api.nvim_set_hl(0, "CmpItemKindCrate", { fg = "#F64D00" })
-          vim.api.nvim_set_hl(0, "CmpItemKindEmoji", { fg = "#FDE030" })
-          vim.api.nvim_set_hl(0, "SLCopilot", { fg = "#6CC644", bg = statusline_hl.background })
-          vim.api.nvim_set_hl(0, "SLGitIcon", { fg = "#E8AB53", bg = cursorline_hl.background })
-          vim.api.nvim_set_hl(0, "SLBranchName", { fg = normal_hl.foreground, bg = cursorline_hl.background })
-          vim.api.nvim_set_hl(0, "SLSeparator", { fg = cursorline_hl.background, bg = statusline_hl.background })
-        end,
-      },
-    },
     { -- taken from AstroNvim
       "BufEnter",
       {
@@ -196,8 +174,8 @@ function M.load_defaults()
         callback = function(args)
           local bufname = vim.api.nvim_buf_get_name(args.buf)
           if require("lvim.utils").is_directory(bufname) then
-            vim.api.nvim_del_augroup_by_name "_dir_opened"
-            vim.cmd "do User DirOpened"
+            vim.api.nvim_del_augroup_by_name("_dir_opened")
+            vim.cmd("do User DirOpened")
             vim.api.nvim_exec_autocmds(args.event, { buffer = args.buf, data = args.data })
           end
         end,
@@ -210,8 +188,8 @@ function M.load_defaults()
         nested = true,
         callback = function(args)
           local buftype = vim.api.nvim_get_option_value("buftype", { buf = args.buf })
-          if not (vim.fn.expand "%" == "" or buftype == "nofile") then
-            vim.api.nvim_del_augroup_by_name "_file_opened"
+          if not (vim.fn.expand("%") == "" or buftype == "nofile") then
+            vim.api.nvim_del_augroup_by_name("_file_opened")
             vim.api.nvim_exec_autocmds("User", { pattern = "FileOpened" })
             require("lvim.lsp").setup()
           end

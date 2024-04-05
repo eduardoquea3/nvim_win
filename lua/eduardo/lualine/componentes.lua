@@ -1,3 +1,4 @@
+---@diagnostic disable: lowercase-global
 local icon = require("eduardo.icons")
 local color = require("eduardo.lualine.colors").colors
 local mode_color = require("eduardo.lualine.mode_color").mode_color

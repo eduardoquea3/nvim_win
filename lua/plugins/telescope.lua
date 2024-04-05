@@ -16,6 +16,13 @@ return {
   },
   keys = {
     {
+      "<leader>fm",
+      function()
+        require("telescope.builtin").keymaps()
+      end,
+      desc = "Keymaps",
+    },
+    {
       "<leader><leader>",
       function()
         require("telescope.builtin").buffers()

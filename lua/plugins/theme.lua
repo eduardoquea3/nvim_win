@@ -7,7 +7,7 @@ return {
     priority = 1000,
     opts = {
       flavour = "mocha",
-      transparent_background = false,
+      transparent_background = true,
       styles = {
         comments = { "italic" },
         keywords = { "italic" },
@@ -54,16 +54,19 @@ return {
           virtual_text = "NONE",
         },
       })
-      -- vim.cmd("colorscheme onedark_vivid")
+      -- vim.cmd("colorscheme onedark")
     end,
   },
   {
     "folke/tokyonight.nvim",
     lazy = false,
     priority = 1000,
-    opts = {},
-    config = function()
-      -- vim.cmd.colorscheme("tokyonight-night")
+    opts = {
+      transparent = true,
+    },
+    config = function(_, opts)
+      require("tokyonight").setup(opts)
+      vim.cmd.colorscheme("tokyonight-night")
     end,
   },
   {
@@ -71,9 +74,9 @@ return {
     opts = {
       mirage = true,
     },
-    config = function (_,opts)
-      require("ayu").setup(opts)
-      require("ayu").colorscheme()
-    end
-  }
+    config = function(_, opts)
+      -- require("ayu").setup(opts)
+      -- require("ayu").colorscheme()
+    end,
+  },
 }

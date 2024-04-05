@@ -1,5 +1,6 @@
 local M = {}
 
+---@diagnostic disable-next-line: different-requires
 local null_ls = require("null-ls")
 
 local method = null_ls.methods.FORMATTING
@@ -10,11 +11,13 @@ local alternative_methods = {
   null_ls.methods.DIAGNOSTICS_ON_SAVE,
 }
 
+---@diagnostic disable-next-line: lowercase-global
 function list_registered_providers_names(filetype)
   local s = require("null-ls.sources")
   local available_sources = s.get_available(filetype)
   local registered = {}
   for _, source in ipairs(available_sources) do
+    ---@diagnostic disable-next-line: redefined-local
     for method in pairs(source.methods) do
       registered[method] = registered[method] or {}
       table.insert(registered[method], source.name)
