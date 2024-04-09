@@ -18,9 +18,9 @@ local default = {
 }
 
 -- require("mason-lspconfig").setup_handlers({
-  -- function(server_name)
-    -- require("lspconfig")[server_name].setup(default)
-  -- end,
+-- function(server_name)
+-- require("lspconfig")[server_name].setup(default)
+-- end,
 -- })
 
 lspconfig.tsserver.setup({
@@ -59,6 +59,7 @@ lspconfig.html.setup({
   flags = lsp_flags,
   handlers = handler,
   cmd = { "vscode-html-language-server", "--stdio" },
+  filetypes = { "html", "astro", "jsp" },
 })
 lspconfig.cssls.setup({
   capabilities = capabilities,
@@ -74,6 +75,7 @@ lspconfig.emmet_ls.setup({
   handlers = handler,
   filetypes = {
     "astro",
+    "jsp",
     "css",
     "html",
     "htmldjango",
